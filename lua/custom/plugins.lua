@@ -33,7 +33,7 @@ require("lazy").setup({
     build = ":TSUpdate",
     config = function()
       require("nvim-treesitter").setup({
-        ensure_installed = { "lua", "bash", "c", "cpp" },
+        ensure_installed = { "lua", "bash", "c", "cpp", "rust" },
         sync_install = true,
         auto_install = true,
         highlight = {
@@ -43,6 +43,14 @@ require("lazy").setup({
           enable = true,
         },
       })
+    end,
+  },
+  {
+    "simrat39/rust-tools.nvim",
+    ft = { "rust" },
+    dependencies = { "neovim/nvim-lspconfig" },
+    config = function()
+      -- rust-tools will be configured from lua/custom/lsp.lua
     end,
   },
   {

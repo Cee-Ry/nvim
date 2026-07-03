@@ -1,6 +1,8 @@
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 
+local M = {}
+
 -- Autocomplete setup
 cmp.setup({
   snippet = {
@@ -55,9 +57,13 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, opts)
 end
 
+-- Export helpers so other modules / plugins can reuse them
+M.on_attach = on_attach
+
 -- Configure LSP servers using vim.lsp.config (Neovim 0.11+)
-local servers = { "lua_ls", "clangd", "bashls" }
+local servers = { "lua_ls", "clangd", "bashls", "rust_analyzer" }
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
+M.capabilities = capabilities
 
 -- Enhanced capabilities for better completion
 capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -76,9 +82,31 @@ for _, server in ipairs(servers) do
   if server == "clangd" then
     config.cmd = { "clangd", "--background-index", "--clang-tidy" }
   end
-  
+
+  -- rust_analyzer specific settings
+  if server == "rust_analyzer" then
+    config.settings = {
+      ["rust-analyzer"] = {
+        cargo = { allFeatures = true },
+        checkOnSave = true,
+      },
+    }
+    -- Ensure Neovim can find the rust-analyzer binary even if GUI PATH differs.
+    local ra_path = vim.fn.exepath("rust-analyzer")
+    if ra_path ~= "" then
+      config.cmd = { ra_path }
+    else
+      -- common system location fallback
+      config.cmd = { "/usr/bin/rust-analyzer" }
+    end
+  end
   vim.lsp.config(server, config)
 end
 
 -- Enable the configured servers
 vim.lsp.enable(servers)
+
+-- Do not call rust-tools.setup here to avoid requiring the deprecated lspconfig framework.
+-- If rust-tools is installed, it can be configured separately by the user.
+
+return M

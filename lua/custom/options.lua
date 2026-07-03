@@ -8,9 +8,9 @@ set.number = true
 set.relativenumber = false
 
 -- Tab & Indentation
-set.tabstop = 2                -- Number of spaces a tab counts for
-set.shiftwidth = 2             -- Number of spaces for auto-indent
-set.softtabstop = 2            -- Number of spaces for a tab key press
+set.tabstop = 4                -- Number of spaces a tab counts for
+set.shiftwidth = 4             -- Number of spaces for auto-indent
+set.softtabstop = 4            -- Number of spaces for a tab key press
 set.expandtab = true           -- Convert tabs to spaces
 set.smartindent = true         -- Smart auto-indenting
 set.autoindent = true
