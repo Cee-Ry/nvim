@@ -59,12 +59,25 @@ end
 local servers = { "lua_ls", "clangd", "bashls" }
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+-- Enhanced capabilities for better completion
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = { "documentation", "detail", "additionalTextEdits" },
+}
+
 for _, server in ipairs(servers) do
-  vim.lsp.config(server, {
+  local config = {
     cmd = vim.lsp.rpc.connect(server),
     on_attach = on_attach,
     capabilities = capabilities,
-  })
+  }
+  
+  -- Clangd-specific options for better C++ completion
+  if server == "clangd" then
+    config.cmd = { "clangd", "--background-index", "--clang-tidy" }
+  end
+  
+  vim.lsp.config(server, config)
 end
 
 -- Enable the configured servers
