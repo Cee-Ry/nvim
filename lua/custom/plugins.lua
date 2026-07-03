@@ -18,6 +18,7 @@ require("lazy").setup({
       vim.g.catppuccin_flavour = "mocha"
       require("catppuccin").setup({
         flavour = "mocha",
+        transparent_background = true,
         integrations = {
           treesitter = true,
           native_lsp = { enabled = true },
