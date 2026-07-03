@@ -1,0 +1,47 @@
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git", "clone", "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup({
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.g.catppuccin_flavour = "mocha"
+      require("catppuccin").setup({
+        flavour = "mocha",
+        integrations = {
+          treesitter = true,
+          native_lsp = { enabled = true },
+        },
+      })
+      vim.cmd("colorscheme catppuccin")
+    end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    lazy = false,
+    build = ":TSUpdate",
+    config = function()
+      require("nvim-treesitter").setup({
+        ensure_installed = { "lua", "bash", "c", "cpp" },
+        sync_install = true,
+        auto_install = true,
+        highlight = {
+          enable = true,
+        },
+        indent = {
+          enable = true,
+        },
+      })
+    end,
+  },
+})

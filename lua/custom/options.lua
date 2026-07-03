@@ -30,12 +30,18 @@ set.sidescrolloff = 8          -- Keep 8 columns left/right of cursor
 set.wrap = false               -- Don't wrap long lines
 set.showmode = false           -- Don't show mode in command line (statusline handles it)
 
--- 6. Clipboard & System
+-- Clipboard & System
 set.clipboard = "unnamedplus"  -- Sync with system clipboard
 
--- 8. Split Windows
+-- Split Windows
 set.splitright = true          -- Vertical split goes to the right
 set.splitbelow = true          -- Horizontal split goes below
 
--- 9. Mouse Support
+-- Mouse Support
 set.mouse = "a"                -- Enable mouse in all modes
+
+-- Enable syntax highlighting
+vim.cmd("syntax enable")
+
+-- Enable filetype detection (crucial for knowing which language to highlight)
+vim.cmd("filetype plugin indent on")
