@@ -9,11 +9,12 @@ set.relativenumber = false
 set.numberwidth = 1            -- Minimal width for line numbers, expands as needed
 
 -- Tab & Indentation
-set.tabstop = 4                -- Number of spaces a tab counts for
-set.shiftwidth = 4             -- Number of spaces for auto-indent
-set.softtabstop = 4            -- Number of spaces for a tab key press
-set.expandtab = true           -- Convert tabs to spaces
-set.smartindent = true         -- Smart auto-indenting
+local tab_width = 2
+set.tabstop = tab_width          -- Number of spaces a tab counts for
+set.shiftwidth = tab_width       -- Number of spaces for auto-indent
+set.softtabstop = tab_width      -- Number of spaces for a tab key press
+set.expandtab = true             -- Convert tabs to spaces
+set.smartindent = true           -- Smart auto-indenting
 set.autoindent = true
 
 -- Search Behavior
@@ -46,3 +47,13 @@ vim.cmd("syntax enable")
 
 -- Enable filetype detection (crucial for knowing which language to highlight)
 vim.cmd("filetype plugin indent on")
+
+-- Force indent settings for all filetypes to follow options.lua
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  callback = function()
+    vim.opt_local.tabstop = tab_width
+    vim.opt_local.shiftwidth = tab_width
+    vim.opt_local.softtabstop = tab_width
+  end,
+})
