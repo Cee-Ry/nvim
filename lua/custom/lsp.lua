@@ -3,6 +3,21 @@ local luasnip = require("luasnip")
 
 local M = {}
 
+vim.filetype.add({
+  extension = {
+    h = "c",
+    hh = "cpp",
+    hpp = "cpp",
+    cc = "cpp",
+    cxx = "cpp",
+    ts = "typescript",
+    tsx = "typescriptreact",
+    js = "javascript",
+    jsx = "javascriptreact",
+    mdx = "markdown",
+  },
+})
+
 -- Autocomplete setup
 cmp.setup({
   snippet = {
@@ -60,8 +75,6 @@ end
 -- Export helpers so other modules / plugins can reuse them
 M.on_attach = on_attach
 
--- Configure LSP servers using vim.lsp.config (Neovim 0.11+)
-local servers = { "lua_ls", "clangd", "bashls", "rust_analyzer" }
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 M.capabilities = capabilities
 
@@ -71,42 +84,115 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
   properties = { "documentation", "detail", "additionalTextEdits" },
 }
 
-for _, server in ipairs(servers) do
-  local config = {
-    cmd = vim.lsp.rpc.connect(server),
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
-  
-  -- Clangd-specific options for better C++ completion
-  if server == "clangd" then
-    config.cmd = { "clangd", "--background-index", "--clang-tidy" }
-  end
-
-  -- rust_analyzer specific settings
-  if server == "rust_analyzer" then
-    config.settings = {
+local server_configs = {
+  {
+    name = "lua_ls",
+    filetypes = { "lua" },
+    cmd = { "lua-language-server" },
+  },
+  {
+    name = "clangd",
+    filetypes = { "c", "cpp", "objc", "objcpp" },
+    cmd = { "clangd", "--background-index", "--clang-tidy" },
+  },
+  {
+    name = "bashls",
+    filetypes = { "bash", "sh", "zsh" },
+    cmd = { "bash-language-server" },
+  },
+  {
+    name = "rust_analyzer",
+    filetypes = { "rust" },
+    cmd = function()
+      local ra_path = vim.fn.exepath("rust-analyzer")
+      if ra_path ~= "" then
+        return { ra_path }
+      end
+      return { "/usr/bin/rust-analyzer" }
+    end,
+    settings = {
       ["rust-analyzer"] = {
         cargo = { allFeatures = true },
         checkOnSave = true,
       },
-    }
-    -- Ensure Neovim can find the rust-analyzer binary even if GUI PATH differs.
-    local ra_path = vim.fn.exepath("rust-analyzer")
-    if ra_path ~= "" then
-      config.cmd = { ra_path }
-    else
-      -- common system location fallback
-      config.cmd = { "/usr/bin/rust-analyzer" }
-    end
+    },
+  },
+  {
+    name = "pyright",
+    filetypes = { "python" },
+    cmd = { "pyright-langserver", "--stdio" },
+  },
+  {
+    name = "ts_ls",
+    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "jsx", "tsx" },
+    cmd = { "typescript-language-server", "--stdio" },
+  },
+  {
+    name = "gopls",
+    filetypes = { "go" },
+    cmd = { "gopls" },
+  },
+  {
+    name = "html",
+    filetypes = { "html" },
+    cmd = { "vscode-html-language-server", "--stdio" },
+  },
+  {
+    name = "cssls",
+    filetypes = { "css", "scss", "less" },
+    cmd = { "vscode-css-language-server", "--stdio" },
+  },
+  {
+    name = "jsonls",
+    filetypes = { "json" },
+    cmd = { "vscode-json-language-server", "--stdio" },
+  },
+  {
+    name = "yamlls",
+    filetypes = { "yaml", "yml" },
+    cmd = { "yaml-language-server", "--stdio" },
+  },
+  {
+    name = "marksman",
+    filetypes = { "markdown", "markdown.mdx" },
+    cmd = { "marksman" },
+  },
+  {
+    name = "cmake",
+    filetypes = { "cmake" },
+    cmd = { "cmake-language-server" },
+  },
+}
+
+local enabled_servers = {}
+for _, server in ipairs(server_configs) do
+  local cmd = server.cmd
+  if type(cmd) == "function" then
+    cmd = cmd()
   end
-  vim.lsp.config(server, config)
+
+  local executable = nil
+  if type(cmd) == "table" and #cmd > 0 then
+    executable = cmd[1]
+  end
+
+  if executable ~= nil and (vim.fn.exepath(executable) ~= "" or vim.fn.executable(executable) == 1) then
+    local config = {
+      cmd = cmd,
+      on_attach = on_attach,
+      capabilities = capabilities,
+      filetypes = server.filetypes,
+    }
+
+    if server.settings then
+      config.settings = server.settings
+    end
+
+    vim.lsp.config(server.name, config)
+    table.insert(enabled_servers, server.name)
+  end
 end
 
--- Enable the configured servers
-vim.lsp.enable(servers)
-
--- Do not call rust-tools.setup here to avoid requiring the deprecated lspconfig framework.
--- If rust-tools is installed, it can be configured separately by the user.
+vim.lsp.enable(enabled_servers)
 
 return M
