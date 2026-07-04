@@ -6,6 +6,7 @@ local set = vim.opt
 -- Line Numbers 
 set.number = true
 set.relativenumber = false
+set.numberwidth = 1            -- Minimal width for line numbers, expands as needed
 
 -- Tab & Indentation
 set.tabstop = 4                -- Number of spaces a tab counts for
