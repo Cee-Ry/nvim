@@ -3,10 +3,18 @@ vim.g.maplocalleader = " "
   
 local set = vim.opt
 
--- Line Numbers 
+-- Line Numbers & nav
 set.number = true
 set.relativenumber = false
 set.numberwidth = 1            -- Minimal width for line numbers, expands as needed
+set.whichwrap:append("l")
+set.whichwrap:append("h")
+set.showbreak = "↳"
+set.guicursor = {
+	"n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50",
+	"a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor",
+	"sm:block-blinkwait175-blinkoff150-blinkon175",
+}
 
 -- Tab & Indentation
 local tab_width = 2
