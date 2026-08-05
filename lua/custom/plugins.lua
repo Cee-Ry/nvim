@@ -128,4 +128,27 @@ require("lazy").setup({
       })
     end,
   },
+  {
+    "lewis6991/gitsigns.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require('gitsigns').setup({
+        signs = {
+          add = { hl = 'GitGutterAdd', text = '│', numhl='GitSignsAddNr', linehl='GitSignsAddLn' },
+          change = { hl = 'GitGutterChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn' },
+          delete = { hl = 'GitGutterDelete', text = '▾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn' },
+          topdelete = { hl = 'GitGutterDelete', text = '▾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn' },
+          changedelete = { hl = 'GitGutterChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn' },
+        },
+        signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
+        numhl = false,
+        linehl = false,
+        preview_config = { border = 'single' },
+        watch_index = { interval = 1000 },
+        current_line_blame = false,
+        word_diff = false,
+      })
+    end,
+  },
 })
