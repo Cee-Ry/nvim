@@ -3,6 +3,9 @@ vim.g.maplocalleader = " "
 
 vim.keymap.set("n", "<leader>n", "<cmd>Neotree toggle<CR>", { desc = "Toggle Neo-tree" })
 vim.keymap.set("n", "<C-n>", "<cmd>Neotree toggle<CR>", { desc = "Toggle Neo-tree" })
+vim.keymap.set("n", "<leader>t", "<cmd>tabnew<CR>", { desc = "Open new tab" })
+vim.keymap.set("n", "<A-Tab>", "<cmd>tabnext<CR>", { desc = "Next tab" })
+vim.keymap.set("n", "<A-S-Tab>", "<cmd>tabprevious<CR>", { desc = "Previous tab" })
   
 local set = vim.opt
 

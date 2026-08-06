@@ -28,6 +28,26 @@ require("lazy").setup({
     end,
   },
   {
+    "folke/which-key.nvim",
+    event = "VimEnter",
+    config = function()
+      require("which-key").setup({
+        plugins = {
+          marks = true,
+          registers = true,
+          spelling = {
+            enabled = true,
+            suggestions = 20,
+          },
+        },
+      })
+      require("which-key").register({
+        n = "Neo-tree",
+        t = "New tab",
+      }, { prefix = "<leader>" })
+    end,
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
     build = ":TSUpdate",
