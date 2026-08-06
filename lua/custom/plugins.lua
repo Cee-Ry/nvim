@@ -151,4 +151,47 @@ require("lazy").setup({
       })
     end,
   },
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    cmd = "Neotree",
+    keys = {
+      { "<leader>n", "<cmd>Neotree toggle<CR>", desc = "Toggle Neo-tree" },
+      { "<C-n>", "<cmd>Neotree toggle<CR>", desc = "Toggle Neo-tree" },
+    },
+    config = function()
+      require("neo-tree").setup({
+        close_if_last_window = true,
+        popup_border_style = "rounded",
+        enable_git_status = true,
+        enable_diagnostics = true,
+        default_component_configs = {
+          indent = { padding = 0 },
+          icon = {
+            folder_closed = "",
+            folder_open = "",
+            folder_empty = "ﰊ",
+          },
+        },
+        window = {
+          position = "left",
+          width = 40,
+        },
+        filesystem = {
+          follow_current_file = true,
+          use_libuv_file_watcher = true,
+          filtered_items = {
+            visible = false,
+            hide_dotfiles = false,
+            hide_gitignored = true,
+          },
+        },
+      })
+    end,
+  },
 })

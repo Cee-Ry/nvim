@@ -1,5 +1,8 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
+vim.keymap.set("n", "<leader>n", "<cmd>Neotree toggle<CR>", { desc = "Toggle Neo-tree" })
+vim.keymap.set("n", "<C-n>", "<cmd>Neotree toggle<CR>", { desc = "Toggle Neo-tree" })
   
 local set = vim.opt
 
