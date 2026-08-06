@@ -181,6 +181,10 @@ require("lazy").setup({
         window = {
           position = "left",
           width = 40,
+          mappings = {
+            ["l"] = "open",
+            ["h"] = "close_node",
+          },
         },
         filesystem = {
           follow_current_file = true,
