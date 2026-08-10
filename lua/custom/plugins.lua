@@ -28,35 +28,49 @@ require("lazy").setup({
     end,
   },
   {
-    "folke/which-key.nvim",
+    "nvim-mini/mini.clue",
     event = "VimEnter",
     config = function()
-      require("which-key").setup({
-        plugins = {
-          marks = true,
-          registers = true,
-          spelling = {
-            enabled = true,
-            suggestions = 20,
-          },
+      local miniclue = require("mini.clue")
+      miniclue.setup({
+        triggers = {
+          { mode = { "n", "x" }, keys = "<Leader>" },
+          { mode = { "n", "x" }, keys = "g" },
+          { mode = "n", keys = "[" },
+          { mode = "n", keys = "]" },
+          { mode = { "i", "c" }, keys = "<C-x>" },
+          { mode = { "n", "x" }, keys = "'" },
+          { mode = { "n", "x" }, keys = "`" },
+          { mode = { "n", "x" }, keys = '"' },
+          { mode = "n", keys = "<C-w>" },
+          { mode = { "n", "x" }, keys = "z" },
+        },
+        clues = {
+          miniclue.gen_clues.square_brackets(),
+          miniclue.gen_clues.builtin_completion(),
+          miniclue.gen_clues.g(),
+          miniclue.gen_clues.marks(),
+          miniclue.gen_clues.registers(),
+          miniclue.gen_clues.windows(),
+          miniclue.gen_clues.z(),
         },
         window = {
-          border = "rounded",
-          winblend = 100,
+          config = { border = "rounded" },
+          delay = 100,
         },
       })
-      vim.api.nvim_set_hl(0, "WhichKey", { bg = "NONE", ctermbg = "NONE" })
-      vim.api.nvim_set_hl(0, "WhichKeyDesc", { bg = "NONE", ctermbg = "NONE" })
-      vim.api.nvim_set_hl(0, "WhichKeySeparator", { bg = "NONE", ctermbg = "NONE" })
-      vim.api.nvim_set_hl(0, "WhichKeyGroup", { bg = "NONE", ctermbg = "NONE" })
-      vim.api.nvim_set_hl(0, "WhichKeyFloat", { bg = "NONE", ctermbg = "NONE" })
-      vim.api.nvim_set_hl(0, "WhichKeyBorder", { bg = "NONE", ctermbg = "NONE" })
+      vim.api.nvim_set_hl(0, "MiniClueBorder", { bg = "NONE", ctermbg = "NONE" })
+      vim.api.nvim_set_hl(0, "MiniClueDescGroup", { bg = "NONE", ctermbg = "NONE" })
+      vim.api.nvim_set_hl(0, "MiniClueDescSingle", { bg = "NONE", ctermbg = "NONE" })
+      vim.api.nvim_set_hl(0, "MiniClueNextKey", { bg = "NONE", ctermbg = "NONE" })
+      vim.api.nvim_set_hl(0, "MiniClueNextKeyWithPostkeys", { bg = "NONE", ctermbg = "NONE" })
+      vim.api.nvim_set_hl(0, "MiniClueSeparator", { bg = "NONE", ctermbg = "NONE" })
+      vim.api.nvim_set_hl(0, "MiniClueTitle", { bg = "NONE", ctermbg = "NONE" })
       vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE", ctermbg = "NONE" })
       vim.api.nvim_set_hl(0, "FloatBorder", { bg = "NONE", ctermbg = "NONE" })
-      require("which-key").register({
-        n = "Neo-tree",
-        t = "New tab",
-      }, { prefix = "<leader>" })
+      vim.schedule(function()
+        miniclue.ensure_all_triggers()
+      end)
     end,
   },
   {
