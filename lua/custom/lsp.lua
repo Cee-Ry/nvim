@@ -128,6 +128,21 @@ local server_configs = {
     cmd = { "typescript-language-server", "--stdio" },
   },
   {
+    name = "dartls",
+    filetypes = { "dart" },
+    cmd = function()
+      local dartls = vim.fn.exepath("dart_language_server")
+      if dartls ~= "" then
+        return { dartls }
+      end
+      local dart = vim.fn.exepath("dart")
+      if dart ~= "" then
+        return { dart, "language-server", "--protocol=lsp" }
+      end
+      return { "dart", "language-server", "--protocol=lsp" }
+    end,
+  },
+  {
     name = "gopls",
     filetypes = { "go" },
     cmd = { "gopls" },

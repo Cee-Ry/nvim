@@ -120,6 +120,27 @@ require("lazy").setup({
       -- rust-tools will be configured from lua/custom/lsp.lua
     end,
   },
+
+  -- {
+  --   "dart-lang/dart-vim-plugin",
+  --   ft = { "dart" },
+  -- },
+  {
+    "akinsho/flutter-tools.nvim",
+    ft = { "dart" },
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    config = function()
+      require("flutter-tools").setup({
+        lsp = {
+          on_attach = require("custom.lsp").on_attach,
+          capabilities = require("custom.lsp").capabilities,
+        },
+        ui = {
+          border = "rounded",
+        },
+      })
+    end,
+  },
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },

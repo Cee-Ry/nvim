@@ -1,14 +1,29 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+local map = vim.keymap.set
 
-vim.keymap.set("n", "<leader>n", "<cmd>Neotree toggle<CR>", { desc = "Toggle Neo-tree" })
-vim.keymap.set("n", "<C-n>", "<cmd>Neotree toggle<CR>", { desc = "Toggle Neo-tree" })
-vim.keymap.set("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "Open vertical split" })
-vim.keymap.set("n", "<leader>V", "<cmd>vsplit<CR>", { desc = "Open vertical split" })
-vim.keymap.set("n", "<leader>w", "<C-w>w", { desc = "Switch window focus" })
-vim.keymap.set("n", "<leader>t", "<cmd>tabnew<CR>", { desc = "Open new tab" })
-vim.keymap.set("n", "<A-Tab>", "<cmd>tabnext<CR>", { desc = "Next tab" })
-vim.keymap.set("n", "<A-S-Tab>", "<cmd>tabprevious<CR>", { desc = "Previous tab" })
+map("n", "<leader>n", "<cmd>Neotree toggle<CR>", { desc = "Toggle Neo-tree" })
+map("n", "<C-n>", "<cmd>Neotree toggle<CR>", { desc = "Toggle Neo-tree" })
+map("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "Open vertical split" })
+map("n", "<leader>V", "<cmd>vsplit<CR>", { desc = "Open vertical split" })
+map("n", "<leader>w", "<C-w>w", { desc = "Switch window focus" })
+map("n", "<leader>t", "<cmd>tabnew<CR>", { desc = "Open new tab" })
+map("n", "<A-Tab>", "<cmd>tabnext<CR>", { desc = "Next tab" })
+map("n", "<A-S-Tab>", "<cmd>tabprevious<CR>", { desc = "Previous tab" })
+
+-- Flutter
+map("n", "<leader>rr", "<cmd>FlutterRun<cr>", { desc = "Flutter Run" })
+map("n", "<leader>rd", "<cmd>FlutterDebug<cr>", { desc = "Flutter Debug" })
+map("n", "<leader>re", "<cmd>FlutterEmulators<cr>", { desc = "Flutter Emulators" })
+map("n", "<leader>rv", "<cmd>FlutterDevices<cr>", { desc = "Flutter Devices" })
+map("n", "<leader>rl", "<cmd>FlutterReload<cr>", { desc = "Hot Reload" })
+map("n", "<leader>rR", "<cmd>FlutterRestart<cr>", { desc = "Hot Restart" })
+map("n", "<leader>rq", "<cmd>FlutterQuit<cr>", { desc = "Quit Flutter" })
+map("n", "<leader>ro", "<cmd>FlutterOutlineToggle<cr>", { desc = "Flutter Outline" })
+map("n", "<leader>rL", "<cmd>FlutterLogToggle<cr>", { desc = "Flutter Log" })
+map("n", "<leader>rc", "<cmd>FlutterLogClear<cr>", { desc = "Clear Flutter Log" })
+map("n", "<leader>ra", "<cmd>FlutterAttach<cr>", { desc = "Attach to App" })
+map("n", "<leader>rt", "<cmd>FlutterDevTools<cr>", { desc = "Flutter DevTools" })
   
 local set = vim.opt
 
@@ -26,7 +41,7 @@ set.guicursor = {
 }
 
 -- Tab & Indentation
-local tab_width = 2
+local tab_width = 4
 set.tabstop = tab_width          -- Number of spaces a tab counts for
 set.shiftwidth = tab_width       -- Number of spaces for auto-indent
 set.softtabstop = tab_width      -- Number of spaces for a tab key press
