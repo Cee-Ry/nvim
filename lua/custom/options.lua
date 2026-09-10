@@ -41,7 +41,7 @@ set.guicursor = {
 }
 
 -- Tab & Indentation
-local tab_width = 4
+local tab_width = 2
 set.tabstop = tab_width          -- Number of spaces a tab counts for
 set.shiftwidth = tab_width       -- Number of spaces for auto-indent
 set.softtabstop = tab_width      -- Number of spaces for a tab key press

@@ -98,7 +98,7 @@ local server_configs = {
   {
     name = "bashls",
     filetypes = { "bash", "sh", "zsh" },
-    cmd = { "bash-language-server" },
+    cmd = { "bash-language-server", "start" },
   },
   {
     name = "rust_analyzer",
