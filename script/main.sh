@@ -1,3 +1,4 @@
 #!/bin/bash
 
-npm install -g bash-language-server
+sudo dnf install clang-devel -y
+sudo npm install -g bash-language-server
