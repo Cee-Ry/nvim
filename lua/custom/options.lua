@@ -10,6 +10,56 @@ map("n", "<leader>w", "<C-w>w", { desc = "Switch window focus" })
 map("n", "<leader>t", "<cmd>tabnew<CR>", { desc = "Open new tab" })
 map("n", "<A-Tab>", "<cmd>tabnext<CR>", { desc = "Next tab" })
 map("n", "<A-S-Tab>", "<cmd>tabprevious<CR>", { desc = "Previous tab" })
+local toggle_brace_fold = function()
+  local line = vim.api.nvim_win_get_cursor(0)[1]
+  if vim.fn.foldclosed(line) ~= -1 then
+    vim.cmd("normal! za")
+    return
+  end
+
+  local original_cursor = vim.api.nvim_win_get_cursor(0)
+  local text = vim.api.nvim_get_current_line()
+  local cursor_column = original_cursor[2] + 1
+  local brace_column
+
+  for column = 1, #text do
+    local character = text:sub(column, column)
+    if (character == "{" or character == "}")
+      and (brace_column == nil or math.abs(column - cursor_column) < math.abs(brace_column - cursor_column)) then
+      brace_column = column
+    end
+  end
+
+  if brace_column == nil then
+	if vim.fn.foldlevel(line) > 0 then
+	  vim.cmd("normal! za")
+	end
+    return
+  end
+
+  vim.api.nvim_win_set_cursor(0, { line, brace_column - 1 })
+  vim.cmd("normal! %")
+  local match_line = vim.api.nvim_win_get_cursor(0)[1]
+  vim.api.nvim_win_set_cursor(0, original_cursor)
+
+  if match_line ~= line then
+    local first_line = math.min(line, match_line)
+    local last_line = math.max(line, match_line)
+    local fold_starts_here = vim.fn.foldlevel(first_line) > vim.fn.foldlevel(first_line - 1)
+
+    if fold_starts_here then
+      vim.api.nvim_win_set_cursor(0, { first_line, 0 })
+      vim.cmd("normal! za")
+      vim.api.nvim_win_set_cursor(0, original_cursor)
+    else
+      vim.cmd(("%d,%dfold"):format(first_line, last_line))
+    end
+  elseif vim.fn.foldlevel(line) > 0 then
+	vim.cmd("normal! za")
+  end
+end
+map("n", "za", toggle_brace_fold, { desc = "Toggle fold for brace block" })
+map("n", "<leader>f", toggle_brace_fold, { desc = "Toggle fold for brace block" })
 
 -- Flutter
 map("n", "<leader>rr", "<cmd>FlutterRun<cr>", { desc = "Flutter Run" })
@@ -57,6 +107,8 @@ set.incsearch = true           -- Show matches as you type
 
 -- Visual & UI
 set.termguicolors = true       -- Enable true colors (24-bit)
+set.foldmethod = "manual"
+set.foldenable = true
 set.cursorline = true          -- Highlight current line
 set.signcolumn = "yes"         -- Always show sign column (for git/lint icons)
 set.scrolloff = 8              -- Keep 8 lines above/below cursor
