@@ -142,6 +142,20 @@ require("lazy").setup({
     end,
   },
   {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "neovim/nvim-lspconfig",
+    },
+    config = function()
+      require("mason").setup()
+      require("mason-lspconfig").setup({
+        ensure_installed = { "html" },
+        automatic_enable = { "html" },
+      })
+    end,
+  },
+  {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
@@ -160,12 +174,21 @@ require("lazy").setup({
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
+      "saadparwaiz1/cmp_luasnip",
       "L3MON4D3/LuaSnip",
     },
   },
   {
     "L3MON4D3/LuaSnip",
     event = "InsertEnter",
+    dependencies = { "rafamadriz/friendly-snippets" },
+    config = function()
+      require("luasnip.loaders.from_vscode").lazy_load()
+    end,
+  },
+  {
+    "rafamadriz/friendly-snippets",
+    lazy = true,
   },
   {
     "windwp/nvim-autopairs",

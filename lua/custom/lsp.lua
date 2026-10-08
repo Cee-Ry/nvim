@@ -58,6 +58,18 @@ cmp.setup({
   }),
 })
 
+cmp.setup.filetype("html", {
+  completion = {
+    keyword_length = 0,
+  },
+  sources = cmp.config.sources({
+    { name = "nvim_lsp", keyword_length = 0 },
+    { name = "luasnip", keyword_length = 1 },
+  }, {
+    { name = "buffer", keyword_length = 3 },
+  }),
+})
+
 -- LSP on_attach callback
 local on_attach = function(client, bufnr)
   local opts = { noremap = true, silent = true, buffer = bufnr }
@@ -191,19 +203,20 @@ for _, server in ipairs(server_configs) do
     executable = cmd[1]
   end
 
+  local config = {
+    cmd = cmd,
+    on_attach = on_attach,
+    capabilities = capabilities,
+    filetypes = server.filetypes,
+  }
+
+  if server.settings then
+    config.settings = server.settings
+  end
+
+  vim.lsp.config(server.name, config)
+
   if executable ~= nil and (vim.fn.exepath(executable) ~= "" or vim.fn.executable(executable) == 1) then
-    local config = {
-      cmd = cmd,
-      on_attach = on_attach,
-      capabilities = capabilities,
-      filetypes = server.filetypes,
-    }
-
-    if server.settings then
-      config.settings = server.settings
-    end
-
-    vim.lsp.config(server.name, config)
     table.insert(enabled_servers, server.name)
   end
 end
