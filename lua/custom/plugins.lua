@@ -150,8 +150,8 @@ require("lazy").setup({
     config = function()
       require("mason").setup()
       require("mason-lspconfig").setup({
-        ensure_installed = { "html" },
-        automatic_enable = { "html" },
+        ensure_installed = { "html", "cssls" },
+        automatic_enable = { "html", "cssls" },
       })
     end,
   },

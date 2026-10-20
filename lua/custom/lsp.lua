@@ -70,6 +70,18 @@ cmp.setup.filetype("html", {
   }),
 })
 
+cmp.setup.filetype({ "css", "scss", "less" }, {
+  completion = {
+    keyword_length = 0,
+  },
+  sources = cmp.config.sources({
+    { name = "nvim_lsp", keyword_length = 0 },
+    { name = "luasnip", keyword_length = 1 },
+  }, {
+    { name = "buffer", keyword_length = 3 },
+  }),
+})
+
 -- LSP on_attach callback
 local on_attach = function(client, bufnr)
   local opts = { noremap = true, silent = true, buffer = bufnr }
