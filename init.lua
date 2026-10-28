@@ -1,3 +1,4 @@
+require("configs.editor")
 require("custom.plugins")
 require("custom.options")
 require("custom.lsp")
