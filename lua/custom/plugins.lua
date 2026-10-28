@@ -10,6 +10,28 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   {
+    "xiyaowong/transparent.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      extra_groups = {
+        "NormalFloat",
+        "FloatBorder",
+        "FloatTitle",
+        "NeoTreeNormal",
+        "NeoTreeNormalNC",
+        "NeoTreeEndOfBuffer",
+        "MiniClueBorder",
+        "MiniClueDescGroup",
+        "MiniClueDescSingle",
+        "MiniClueNextKey",
+        "MiniClueNextKeyWithPostkeys",
+        "MiniClueSeparator",
+        "MiniClueTitle",
+      },
+    },
+  },
+  {
     "catppuccin/nvim",
     name = "catppuccin",
     lazy = false,
@@ -18,7 +40,6 @@ require("lazy").setup({
       vim.g.catppuccin_flavour = "mocha"
       require("catppuccin").setup({
         flavour = "mocha",
-        transparent_background = true,
         integrations = {
           treesitter = true,
           native_lsp = { enabled = true },
@@ -59,15 +80,6 @@ require("lazy").setup({
           delay = 100,
         },
       })
-      vim.api.nvim_set_hl(0, "MiniClueBorder", { bg = "NONE", ctermbg = "NONE" })
-      vim.api.nvim_set_hl(0, "MiniClueDescGroup", { bg = "NONE", ctermbg = "NONE" })
-      vim.api.nvim_set_hl(0, "MiniClueDescSingle", { bg = "NONE", ctermbg = "NONE" })
-      vim.api.nvim_set_hl(0, "MiniClueNextKey", { bg = "NONE", ctermbg = "NONE" })
-      vim.api.nvim_set_hl(0, "MiniClueNextKeyWithPostkeys", { bg = "NONE", ctermbg = "NONE" })
-      vim.api.nvim_set_hl(0, "MiniClueSeparator", { bg = "NONE", ctermbg = "NONE" })
-      vim.api.nvim_set_hl(0, "MiniClueTitle", { bg = "NONE", ctermbg = "NONE" })
-      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE", ctermbg = "NONE" })
-      vim.api.nvim_set_hl(0, "FloatBorder", { bg = "NONE", ctermbg = "NONE" })
       vim.schedule(function()
         miniclue.ensure_all_triggers()
       end)
