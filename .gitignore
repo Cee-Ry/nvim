@@ -1,3 +1,5 @@
 *.toml
 *.json
 othersConfig/
+.current_theme
+current_theme.txt

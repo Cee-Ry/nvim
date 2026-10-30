@@ -13,15 +13,17 @@ return {
           native_lsp = { enabled = true },
         },
       })
-      -- vim.cmd("colorscheme catppuccin")
     end,
   },
   {
     "xero/miasma.nvim",
     lazy = false,
     priority = 1000,
-    config = function()
-      vim.cmd("colorscheme miasma")
-    end,
+  },
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
   },
 }
