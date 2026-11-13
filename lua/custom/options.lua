@@ -84,7 +84,6 @@ set.relativenumber = false
 set.numberwidth = 1            -- Minimal width for line numbers, expands as needed
 set.whichwrap:append("l")
 set.whichwrap:append("h")
-set.showbreak = "↳"
 set.guicursor = {
 	"n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50",
 	"a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor",
@@ -114,7 +113,10 @@ set.cursorline = true          -- Highlight current line
 set.signcolumn = "yes"         -- Always show sign column (for git/lint icons)
 set.scrolloff = 8              -- Keep 8 lines above/below cursor
 set.sidescrolloff = 8          -- Keep 8 columns left/right of cursor
-set.wrap = false               -- Don't wrap long lines
+set.wrap = true                -- Wrap long lines
+set.linebreak = true           -- Wrap at words instead of breaking in the middle of words
+set.breakindent = true         -- Preserve indentation for wrapped lines
+set.showbreak = "↳ "           -- Indicator showing statement continues from above
 set.showmode = false           -- Don't show mode in command line (statusline handles it)
 
 -- Clipboard & System
